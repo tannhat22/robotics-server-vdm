@@ -22,6 +22,11 @@ class AppConfig:
     iss: Optional[str]
     ros_args: List[str]
 
+    server_keycloak_url: str
+    realm: str
+    client_id: str
+    client_secret: Optional[str] = ""
+
     def __post_init__(self):
         self.public_url = urllib.parse.urlparse(cast(str, self.public_url))
 

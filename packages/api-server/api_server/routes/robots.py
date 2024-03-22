@@ -14,11 +14,11 @@ get_db = database.get_db
 # Tạo 1 robot mới
 @router.post("", status_code=status.HTTP_201_CREATED)
 def create_robot(request: schemas.Robot, db: Session = Depends(get_db)):
-    if RobotRepository.get_robot_by_serial_no(db, request.serial_no):
+    if RobotRepository.check_serial_no_exist(db, request.serial_no):
         raise HTTPException(status_code=400, detail="Serial_no already exists")
-    elif RobotRepository.get_robot_by_name(db, request.name):
-        raise HTTPException(status_code=400, detail="Name robot already exists")
-    elif RobotRepository.get_robot_by_ip_address(db, request.ip_address):
+    elif RobotRepository.check_name_exist(db, request.name):
+        raise HTTPException(status_code=400, detail="Robot Name already exists")
+    elif RobotRepository.check_ip_address_exist(db, request.ip_address):
         raise HTTPException(status_code=400, detail="IP address already exists")
     return RobotRepository.create_robot(db, request)
 
@@ -35,11 +35,11 @@ def get_robot(id: int, db: Session = Depends(get_db)):
 # Sửa dữ liệu robot
 @router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
 def update_robot(id: int, request: schemas.Robot, db: Session = Depends(get_db)):
-    if RobotRepository.get_robot_by_serial_no(db, request.serial_no, id):
+    if RobotRepository.check_serial_no_exist(db, request.serial_no, id):
         raise HTTPException(status_code=400, detail="Serial_no already exists")
-    elif RobotRepository.get_robot_by_name(db, request.name, id):
-        raise HTTPException(status_code=400, detail="Name robot already exists")
-    elif RobotRepository.get_robot_by_ip_address(db, request.ip_address, id):
+    elif RobotRepository.check_name_exist(db, request.name, id):
+        raise HTTPException(status_code=400, detail="Robot name already exists")
+    elif RobotRepository.check_ip_address_exist(db, request.ip_address, id):
         raise HTTPException(status_code=400, detail="IP address already exists")
     return RobotRepository.update_robot(db, id, request)
 

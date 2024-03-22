@@ -19,6 +19,7 @@ from .database import engine, Base
 from . import routes
 from .app_config import app_config
 # from .authenticator import AuthenticationError, authenticator, user_dep
+from .authKeycloak import get_user_info
 from .fast_io import FastIO
 from .logger import logger
 # from .models import (
@@ -90,8 +91,18 @@ shutdown_cbs: List[Union[Coroutine[Any, Any, Any], Callable[[], None]]] = []
 
 # rmf_bookkeeper = RmfBookKeeper(rmf_events, logger=logger.getChild("BookKeeper"))
 
+app.include_router(routes.main_router)
+
 app.include_router(
-    routes.robots_router, prefix="/robots"
+    routes.admin_router, prefix="/admin", dependencies=[Depends(get_user_info)]
+)
+
+app.include_router(
+    routes.robots_router, prefix="/robots", dependencies=[Depends(get_user_info)]
+)
+
+app.include_router(
+    routes.maps_router, prefix="/maps", dependencies=[Depends(get_user_info)]
 )
 
 # app.include_router(routes.main_router)

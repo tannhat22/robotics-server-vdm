@@ -17,8 +17,8 @@ config = {
     # a user that is automatically given admin privileges, note that this does not guarantee that the user exists in the identity provider.
     "builtin_admin": "admin",
     # path to a PEM encoded RSA public key which is used to verify JWT tokens, if the path is relative, it is based on the working dir.
-    "jwt_public_key": None,
-    # "jwt_public_key": "/home/tannhat/nhat_ws/monorepo/rmf-web/packages/api-server/jwt-key/keycloak-public.key",
+    # "jwt_public_key": None,
+    "jwt_public_key": "/home/tannhat/nhat_ws/monorepo/rmf-web/packages/api-server/jwt-key/keycloak-public.key",
     # url to the oidc endpoint, used to authenticate rest requests, it should point to the well known endpoint, e.g.
     # http://localhost:8080/auth/realms/rmf-web/.well-known/openid-configuration.
     # NOTE: This is ONLY used for documentation purposes, the "jwt_public_key" will be the
@@ -39,5 +39,8 @@ config = {
     # list of arguments passed to the ros node, "--ros-args" is automatically prepended to the list.
     # e.g.
     #   Run with sim time: ["-p", "use_sim_time:=true"]
+    "server_keycloak_url": "http://localhost:8080/",
+    "realm": "rmf-web",
+    "client_id": "rmf_api_server",
     "ros_args": [],
 }

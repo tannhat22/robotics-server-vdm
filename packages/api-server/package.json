@@ -4,11 +4,9 @@
   "description": "dummy package",
   "private": true,
   "scripts": {
-    "restart": "AMR_VDM_API_SERVER_CONFIG=sqlite_local_config.py ../../scripts/pipenv run python -m api_server",
-    "start": "rm -rf run && mkdir -p run/cache && AMR_VDM_API_SERVER_CONFIG=mysql_local_config.py ../../scripts/pipenv run python -m api_server",
-    "start:psql": "rm -rf run && mkdir -p run/cache && AMR_VDM_API_SERVER_CONFIG=psql_local_config.py ../../scripts/pipenv run python -m api_server",
-    "test": "../../scripts/pipenv run python scripts/test.py",
-    "lint": "../../scripts/pipenv run pyright && ../../scripts/pipenv run pylint api_server --ignore=ros_pydantic,rmf_api",
+    "restart": "RSV_API_SERVER_CONFIG=sqlite_local_config.py ../../scripts/pipenv run python -m api_server",
+    "start": "rm -rf run && mkdir -p run/cache && RSV_API_SERVER_CONFIG=mysql_local_config.py ../../scripts/pipenv run python -m api_server",
+    "start:mysql": "rm -rf run && mkdir -p run/cache && RSV_API_SERVER_CONFIG=mysql_local_config.py ../../scripts/pipenv run python -m api_server",
     "generate-models": "./generate-models.sh"
   },
   "devDependencies": {

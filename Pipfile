@@ -12,6 +12,8 @@ python-socketio = "*"
 rx = "*"
 sqlalchemy = "*"
 pymysql = "*"
+fastapi-keycloak = "*"
+python-keycloak = "*"
 
 [dev-packages]
 
