@@ -61,7 +61,7 @@ const AuthLogin = () => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            await login(values.email, values.password);
+            await login('');
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);

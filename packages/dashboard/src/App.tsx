@@ -10,7 +10,7 @@ import Snackbar from 'components/@extended/Snackbar';
 import Notistack from 'components/third-party/Notistack';
 
 // auth-provider
-import { JWTProvider as AuthProvider } from 'auth/JWTContext';
+import { Auth0Provider as AuthProvider } from 'auth/Auth0Context';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL  ||============================== //
 

@@ -26,9 +26,9 @@ const MainRoutes = {
     {
       path: PATH_ROOT,
       element: (
-        // <AuthGuard>
-        <MainLayout />
-        // </AuthGuard>
+        <AuthGuard>
+          <MainLayout />
+        </AuthGuard>
       ),
       children: [
         {

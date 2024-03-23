@@ -1,12 +1,15 @@
 from typing import Any, Callable, Coroutine, Optional, Union
 
 import jwt
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OpenIdConnect
 
 from .app_config import app_config
 from .logger import logger
-from .models import User
+# from .models import User
+from .schemas import User, Role
+from api_server.repositories import UserRepository
+
 
 
 class AuthenticationError(Exception):
@@ -14,7 +17,7 @@ class AuthenticationError(Exception):
 
 
 class JwtAuthenticator:
-    def __init__(self, pem_file: str, aud: str, iss: str, *, oidc_url: str = ""):
+    def __init__(self, pem_file: str, aud: str, iss: str, *, oidc_url: str = "", client_id: str = ""):
         """
         Authenticates with a JWT token, the client must send an auth params with
         a "token" key.
@@ -23,6 +26,7 @@ class JwtAuthenticator:
         self.aud = aud
         self.iss = iss
         self.oidc_url = oidc_url
+        self.client_id = client_id
         with open(pem_file, "r", encoding="utf8") as f:
             self._public_key = f.read()
 
@@ -31,9 +35,33 @@ class JwtAuthenticator:
             raise AuthenticationError(
                 "expected 'preferred_username' username claim to be present"
             )
+        try:
+            rolesRaw = claims.get("resource_access", {}).get(self.client_id, {}).get("roles", [])
+            roles = []
+            isAdmin = False
+            for role in rolesRaw:
+                if role == "administrator":
+                    isAdmin = True
+                else:
+                    roles.append(Role(name=role))
 
-        username = claims["preferred_username"]
-        return await User.load_or_create_from_db(username)
+            user = User(
+                id=claims.get("sub"),
+                username=claims.get("preferred_username"),
+                email=claims.get("email"),
+                first_name=claims.get("given_name"),
+                last_name=claims.get("family_name"),
+                is_admin=isAdmin,
+                roles=roles
+            )
+            UserRepository.get_or_create_user(user)
+            return user
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e), # "Invalid authentication credentials",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
 
     async def verify_token(self, token: Optional[str]) -> User:
         if not token:
@@ -84,6 +112,7 @@ if app_config.jwt_public_key:
         app_config.aud,
         app_config.iss,
         oidc_url=app_config.oidc_url or "",
+        client_id=app_config.client_id,
     )
 else:
     authenticator = StubAuthenticator()

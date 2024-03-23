@@ -4,10 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from api_server import schemas, database
-from api_server.authKeycloak import get_user_info
+from api_server.authenticator import user_dep
+# from api_server.authKeycloak import get_user_info
 from api_server.repositories import UserRepository
 
-def admin_dep(user: schemas.User = Depends(get_user_info)):
+def admin_dep(user: schemas.User = Depends(user_dep)):
     if not user.is_admin:
         raise HTTPException(403,"User does not have permission to access this content")
     

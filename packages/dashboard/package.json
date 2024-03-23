@@ -94,7 +94,8 @@
     "web-vitals": "^3.3.1",
     "yup": "^1.1.1",
     "keycloak-js": "^23.0.1",
-    "api-client": "workspace:*"
+    "api-client": "workspace:*",
+    "rsv-auth": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

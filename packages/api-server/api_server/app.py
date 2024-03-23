@@ -18,8 +18,8 @@ from .database import engine, Base
 # from . import gateway, ros, routes
 from . import routes
 from .app_config import app_config
-# from .authenticator import AuthenticationError, authenticator, user_dep
-from .authKeycloak import get_user_info
+from .authenticator import AuthenticationError, authenticator, user_dep
+# from .authKeycloak import get_user_info
 from .fast_io import FastIO
 from .logger import logger
 # from .models import (
@@ -94,15 +94,15 @@ shutdown_cbs: List[Union[Coroutine[Any, Any, Any], Callable[[], None]]] = []
 app.include_router(routes.main_router)
 
 app.include_router(
-    routes.admin_router, prefix="/admin", dependencies=[Depends(get_user_info)]
+    routes.admin_router, prefix="/admin", dependencies=[Depends(user_dep)]
 )
 
 app.include_router(
-    routes.robots_router, prefix="/robots", dependencies=[Depends(get_user_info)]
+    routes.robots_router, prefix="/robots", dependencies=[Depends(user_dep)]
 )
 
 app.include_router(
-    routes.maps_router, prefix="/maps", dependencies=[Depends(get_user_info)]
+    routes.maps_router, prefix="/maps", dependencies=[Depends(user_dep)]
 )
 
 # app.include_router(routes.main_router)

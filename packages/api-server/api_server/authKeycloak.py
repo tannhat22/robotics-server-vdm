@@ -1,7 +1,6 @@
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from keycloak import KeycloakOpenID # pip require python-keycloak
 from fastapi import Security, HTTPException, status,Depends
-from sqlalchemy.orm import Session
 # from pydantic import Json
 
 from .app_config import app_config

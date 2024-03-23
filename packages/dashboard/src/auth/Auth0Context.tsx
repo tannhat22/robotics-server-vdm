@@ -65,6 +65,7 @@ export const Auth0Provider = ({ children }: { children: React.ReactElement }) =>
       const user: UserProfile = {
         name: authenticator.user || null,
       };
+      console.log(authenticator.user);
       dispatch({
         type: INITIAL,
         payload: {

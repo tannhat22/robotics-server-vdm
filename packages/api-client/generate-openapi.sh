@@ -28,7 +28,7 @@ pipenv run python generate-openapi.py
 rm -rf 'lib/openapi'
 java -jar .bin/openapi-generator-cli-${openapi_generator_ver}.jar generate -i'build/openapi.json' -gtypescript-axios -olib/openapi -copenapi-generator.json
 
-amr_vdm_server_ver=$(getVersion .)
+rsv_server_ver=$(getVersion .)
 
 # cat << EOF > lib/version.ts
 # // THIS FILE IS GENERATED
